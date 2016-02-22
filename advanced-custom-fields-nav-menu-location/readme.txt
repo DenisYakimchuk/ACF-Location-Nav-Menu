@@ -1,4 +1,4 @@
-﻿=== Advanced Custom Fields: Location "Nav Menu" ===
+﻿=== Location "Nav Menu" for Advanced Custom Fields ===
 Contributors: PSD2HTML
 Tags: acf, menu, acf location
 Requires at least: 4.0
