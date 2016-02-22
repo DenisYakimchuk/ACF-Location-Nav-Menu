@@ -1,0 +1,40 @@
+/*--------------------------------------------------------------------------------------------
+*
+*	Styles for acf fields in menu items box
+*
+*--------------------------------------------------------------------------------------------*/
+.acf-fields.menu-location {
+    margin: 0 -10px 0 -20px !important;
+    clear: both;
+}
+.acf-fields.menu-location .acf-field {padding-left:10px;}
+.acf-fields.menu-location.acf-fields {position: static !important;}
+.acf-fields.menu-location .acf-tab-group {
+    padding-right: 2px;
+    padding-left: 10px;
+    width: auto;
+}
+
+.acf-fields.menu-location .acf-taxonomy-field .acf-checkbox-list {width: 90%;}
+.acf-fields.menu-location .acf-relationship .list li {
+    display: block;
+    margin: 0;
+}
+.acf-fields.menu-location .acf-fc-layout-controlls {width: auto;}
+.nav-menus-php .acf-popup-box .acf-icon-cancel::before {padding: 5px 0 0 1px;}
+.acf-fields.menu-location .acf-icon-cancel::before {margin-top: 5px;}
+.acf-fields.menu-location .acf-icon-location::before {margin-top: 3px;}
+
+.acf-fields.menu-location .acf-icon-minus::before,
+.acf-fields.menu-location .acf-icon-plus::before {padding: 1px 0 0;}
+.acf-fields.menu-location .acf-repeater .acf-icon-minus::before,
+.acf-fields.menu-location .acf-repeater .acf-icon-plus::before {padding: 1px 0 0;}
+
+#wp-hidden-wrap {display: none;}
+
+.acf-fields.menu-location > h3 {
+    margin: 0 0 10px 10px !important;
+    padding-top: 20px;
+}
+
+.acf-fields.menu-location .acf-repeater .acf-gallery .acf-gallery-toolbar .acf-hl li {width: 50%;}
