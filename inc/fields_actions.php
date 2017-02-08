@@ -51,7 +51,7 @@ if( ! class_exists('acf_location_nav_menu_fields_actions') ) :
 					$field = acf_get_field( $k );
 					
 					// update field
-					if( $field && $v != '' ) {
+					if( $field ) {
 						
 						acf_update_value( $v, $item_id, $field );
 						
