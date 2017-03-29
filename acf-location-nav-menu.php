@@ -3,7 +3,7 @@
 Plugin Name: Location "Nav Menu" for ACF
 Plugin URI: 
 Description: Add-On plugin for Advanced Custom Fields (ACF) PRO that adds a "Nav Menu" location for fields
-Version: 1.1.1
+Version: 1.1.2
 Author: psd2html.com
 Author URI: http://psd2html.com
 License: GPLv2 or later
