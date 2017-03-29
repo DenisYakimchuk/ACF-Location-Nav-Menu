@@ -33,8 +33,12 @@ if( ! class_exists('acf_location_nav_menu_fields_actions') ) :
 		
 		function acf_location_nav_menu_save_post($menu_id)
 		{
+			//Fetch post-data without filters
+ 		        $post = filter_input_array(INPUT_POST);
+			
+			
 			// bail early if no ACF data
-			if( empty($_POST['acf']) )
+			if( empty($post['acf']) )
 			{
 				
 				return;
@@ -42,7 +46,7 @@ if( ! class_exists('acf_location_nav_menu_fields_actions') ) :
 			}
 			
 			// save $_POST data
-			foreach( $_POST['acf'] as $item_id => $item_fields )
+			foreach( $post['acf'] as $item_id => $item_fields )
 			{
 				
 				foreach ( $item_fields as $k => $v ) {
