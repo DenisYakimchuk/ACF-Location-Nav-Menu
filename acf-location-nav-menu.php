@@ -17,8 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class acf_location_nav_menu_plugin
-{
+class acf_location_nav_menu_plugin {
 	/*
 	*  Construct
 	*
@@ -27,11 +26,9 @@ class acf_location_nav_menu_plugin
 	*  @created: 2/7/15
 	*/
 
-	function __construct()
-	{
+	function __construct() {
 		//init the plugin core
-		add_action( 'admin_init', array( $this, 'init' ), 1 );
-		
+		add_action( 'admin_init', array( $this, 'init' ), 1 );		
 	}
 	
 	
@@ -42,11 +39,9 @@ class acf_location_nav_menu_plugin
 	*  @since: 1.0
 	*  @created: 2/7/15
 	*/
-	function init()
-	{
+	function init() {
 		
-		if ( class_exists( 'acf' ) )
-		{
+		if ( class_exists( 'acf' ) ) {
 			
 			// defining new acf location -> "Menu"
 			include_once( 'acf_location_nav_menu.php' );
@@ -77,8 +72,7 @@ class acf_location_nav_menu_plugin
 	*  @created: 2/7/15
 	*  @updated 7/1/16
 	*/
-	public function nav_menu_admin_enqueue_scripts_and_styles()
-	{
+	public function nav_menu_admin_enqueue_scripts_and_styles() {
 		
 		wp_enqueue_style( 'acf-field-group' );
 		wp_enqueue_style( 'acf-location-nav-menu' );
@@ -95,11 +89,9 @@ class acf_location_nav_menu_plugin
 	*  @since: 1.0
 	*  @created: 1/10/15
 	*/
-	public function acf_location_nav_menu_before_menu_was_saved($hook)
-	{
+	public function acf_location_nav_menu_before_menu_was_saved($hook) {
 		
-		if ( $hook == 'nav-menus.php' )
-		{
+		if ( $hook == 'nav-menus.php' ) {
 			
 			acf_enqueue_scripts();
 			acf_enqueue_uploader();
@@ -119,8 +111,7 @@ class acf_location_nav_menu_plugin
 	 * @created: 	28/9/15
 	 * @updated: 	7/1/16
 	*/
-	function acf_location_nav_menu_add_fields( $menu_id, $menu_item_db_id, $args )
-	{
+	function acf_location_nav_menu_add_fields( $menu_id, $menu_item_db_id, $args ) {
 		
 		if (defined('DOING_AJAX') && DOING_AJAX) {
 		
@@ -130,12 +121,10 @@ class acf_location_nav_menu_plugin
 					
 					var newMenuItem = $('#menu-item-<?php echo $menu_item_db_id; ?>');
 					
-					if( typeof acf !== 'undefined' )
-					{
+					if( typeof acf !== 'undefined' ) {
 						
 						// setup fields
 						acf.do_action( 'append', $( "#menu-item-<?php echo $menu_item_db_id; ?>" ) );
-						
 						
 					}
 					
@@ -187,7 +176,6 @@ class acf_location_nav_menu_plugin
 							var acfFields = listItem.find('.acf-fields');
 							jQuery.each(menuItemClasses, function(index, item) {
 							    if (item.indexOf('menu-item-depth-') >= 0) {
-								var menuItemDepthClass = item;
 								menuItemDepth = item.replace( 'menu-item-depth-', '' );
 							    }
 							});
@@ -197,7 +185,6 @@ class acf_location_nav_menu_plugin
 							    acfGroupClasses = acfFieldsGroup.attr('class').split(/\s+/);
 							    jQuery.each(acfGroupClasses, function(index, item) {
 								if (item.indexOf('level-') >= 0) {
-								    var acfGroupVisibilityDepthClass = item;
 								    acfGroupVisibilityDepth = item.replace( 'level-', '' );
 								}
 							    });
@@ -224,7 +211,7 @@ class acf_location_nav_menu_plugin
 							    }
 							});
 							
-						    })
+						    });
 						}, 200);
 					    }
 					});
@@ -248,8 +235,7 @@ class acf_location_nav_menu_plugin
 	 * @return      void
 	 * @created: 	29/9/15
 	*/
-	function acf_location_nav_menu_edit_walker( $walker, $menu_id )
-	{
+	function acf_location_nav_menu_edit_walker( $walker, $menu_id ) {
 		
 		$this->nav_menu_admin_enqueue_scripts_and_styles();
 		
