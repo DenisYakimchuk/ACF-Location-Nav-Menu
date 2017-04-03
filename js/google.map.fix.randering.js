@@ -1,3 +1,4 @@
+// since acf location nav menu 1.0
 jQuery(function() {
     fixGoogleMapRandaring();
 });
@@ -24,7 +25,7 @@ function fixGoogleMapRandaring() {
                             var map = new google.maps.Map(jQuery(this).find('.canvas')[0], map_args);
                             
                             google.maps.event.trigger(map, "resize");
-                        } )
+                        } );
                     }, 300);
                 }
                 
