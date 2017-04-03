@@ -148,7 +148,7 @@ class acf_location_nav_menu_plugin {
 									var map = new google.maps.Map(jQuery(this).find('.canvas')[0], map_args);
 									
 									google.maps.event.trigger(map, "resize");
-								} )
+								} );
 							}, 300);
 						}
 						
