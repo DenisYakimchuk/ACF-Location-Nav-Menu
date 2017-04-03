@@ -27,7 +27,6 @@ function acfUpdateMenuLayout() {
                     var acfFields = listItem.find('.acf-fields');
                     jQuery.each(menuItemClasses, function(index, item) {
                         if (item.indexOf('menu-item-depth-') >= 0) {
-                            var menuItemDepthClass = item;
                             menuItemDepth = item.replace( 'menu-item-depth-', '' );
                         }
                     });
@@ -37,7 +36,6 @@ function acfUpdateMenuLayout() {
                         acfGroupClasses = acfFieldsGroup.attr('class').split(/\s+/);
                         jQuery.each(acfGroupClasses, function(index, item) {
                             if (item.indexOf('level-') >= 0) {
-                                var acfGroupVisibilityDepthClass = item;
                                 acfGroupVisibilityDepth = item.replace( 'level-', '' );
                             }
                         });
@@ -64,7 +62,7 @@ function acfUpdateMenuLayout() {
                         }
                     });
                     
-                })
+                });
             }, 200);
         }
     });
