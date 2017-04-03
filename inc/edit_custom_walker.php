@@ -5,7 +5,7 @@
  * Create HTML list of nav menu input items.
  *
  * @package ACF_Location_Menu
- * @since Wordrpress 4.3.1, ACF Location "Menu" Add-on 1.0
+ * @since Wordrpress 4.3.1, ACF Location "Menu" Add-on 1.1.2
  * @uses Walker_Nav_Menu
  */
 
@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class Walker_Nav_Menu_Edit_Custom extends Walker_Nav_Menu  {
-/**
+	/**
 	 * Starts the list before the elements are added.
 	 *
 	 * @see Walker_Nav_Menu::start_lvl()
@@ -70,7 +70,7 @@ class Walker_Nav_Menu_Edit_Custom extends Walker_Nav_Menu  {
 			'_wpnonce',
 		);
 
-		$original_title = '';
+		$original_title = false;
 		if ( 'taxonomy' == $item->type ) {
 			$original_title = get_term_field( 'name', $item->object_id, $item->object, 'raw' );
 			if ( is_wp_error( $original_title ) )
@@ -78,6 +78,11 @@ class Walker_Nav_Menu_Edit_Custom extends Walker_Nav_Menu  {
 		} elseif ( 'post_type' == $item->type ) {
 			$original_object = get_post( $item->object_id );
 			$original_title = get_the_title( $original_object->ID );
+		} elseif ( 'post_type_archive' == $item->type ) {
+			$original_object = get_post_type_object( $item->object );
+			if ( $original_object ) {
+				$original_title = $original_object->labels->archives;
+			}
 		}
 
 		$classes = array(
@@ -123,7 +128,7 @@ class Walker_Nav_Menu_Edit_Custom extends Walker_Nav_Menu  {
 									),
 									'move-menu_item'
 								);
-							?>" class="item-move-up"><abbr title="<?php esc_attr_e('Move up'); ?>">&#8593;</abbr></a>
+							?>" class="item-move-up" aria-label="<?php esc_attr_e( 'Move up' ) ?>">&#8593;</a>
 							|
 							<a href="<?php
 								echo wp_nonce_url(
@@ -136,11 +141,11 @@ class Walker_Nav_Menu_Edit_Custom extends Walker_Nav_Menu  {
 									),
 									'move-menu_item'
 								);
-							?>" class="item-move-down"><abbr title="<?php esc_attr_e('Move down'); ?>">&#8595;</abbr></a>
+							?>" class="item-move-down" aria-label="<?php esc_attr_e( 'Move down' ) ?>">&#8595;</a>
 						</span>
-						<a class="item-edit" id="edit-<?php echo $item_id; ?>" title="<?php esc_attr_e('Edit Menu Item'); ?>" href="<?php
+						<a class="item-edit" id="edit-<?php echo $item_id; ?>" href="<?php
 							echo ( isset( $_GET['edit-menu-item'] ) && $item_id == $_GET['edit-menu-item'] ) ? admin_url( 'nav-menus.php' ) : add_query_arg( 'edit-menu-item', $item_id, remove_query_arg( $removed_args, admin_url( 'nav-menus.php#menu-item-settings-' . $item_id ) ) );
-						?>"><?php _e( 'Edit Menu Item' ); ?></a>
+						?>" aria-label="<?php esc_attr_e( 'Edit menu item' ); ?>"><?php _e( 'Edit' ); ?></a>
 					</span>
 				</div>
 			</div>
@@ -160,7 +165,7 @@ class Walker_Nav_Menu_Edit_Custom extends Walker_Nav_Menu  {
 						<input type="text" id="edit-menu-item-title-<?php echo $item_id; ?>" class="widefat edit-menu-item-title" name="menu-item-title[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->title ); ?>" />
 					</label>
 				</p>
-				<p class="field-title-attribute description description-wide">
+				<p class="field-title-attribute field-attr-title description description-wide">
 					<label for="edit-menu-item-attr-title-<?php echo $item_id; ?>">
 						<?php _e( 'Title Attribute' ); ?><br />
 						<input type="text" id="edit-menu-item-attr-title-<?php echo $item_id; ?>" class="widefat edit-menu-item-attr-title" name="menu-item-attr-title[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->post_excerpt ); ?>" />
@@ -169,7 +174,7 @@ class Walker_Nav_Menu_Edit_Custom extends Walker_Nav_Menu  {
 				<p class="field-link-target description">
 					<label for="edit-menu-item-target-<?php echo $item_id; ?>">
 						<input type="checkbox" id="edit-menu-item-target-<?php echo $item_id; ?>" value="_blank" name="menu-item-target[<?php echo $item_id; ?>]"<?php checked( $item->target, '_blank' ); ?> />
-						<?php _e( 'Open link in a new window/tab' ); ?>
+						<?php _e( 'Open link in a new tab' ); ?>
 					</label>
 				</p>
 				<p class="field-css-classes description description-thin">
@@ -191,8 +196,8 @@ class Walker_Nav_Menu_Edit_Custom extends Walker_Nav_Menu  {
 						<span class="description"><?php _e('The description will be displayed in the menu if the current theme supports it.'); ?></span>
 					</label>
 				</p>
-			    <?php
-				if (class_exists('acf')) : 
+				
+				<?php if (class_exists('acf')) : 
 				
 					if ( function_exists('acf_get_field_groups') ) :
 						$acf_fg = acf_get_field_groups();
@@ -229,7 +234,7 @@ class Walker_Nav_Menu_Edit_Custom extends Walker_Nav_Menu  {
 											<?php $levels = array(
 												'all' 		=> '',
 												'first' 	=> 'level-0',
-												'not-first' 	=> 'level-00',
+												'not-first' => 'level-00',
 												'second'	=> 'level-1',
 												'third'		=> 'level-2',
 											); ?>
@@ -270,18 +275,16 @@ class Walker_Nav_Menu_Edit_Custom extends Walker_Nav_Menu  {
 						
 					endif;
 					
-				endif;
-			    ?>
-			    <p class="field-move hide-if-no-js description description-wide">
-					<label>
-						<span><?php _e( 'Move' ); ?></span>
-						<a href="#" class="menus-move menus-move-up" data-dir="up"><?php _e( 'Up one' ); ?></a>
-						<a href="#" class="menus-move menus-move-down" data-dir="down"><?php _e( 'Down one' ); ?></a>
-						<a href="#" class="menus-move menus-move-left" data-dir="left"></a>
-						<a href="#" class="menus-move menus-move-right" data-dir="right"></a>
-						<a href="#" class="menus-move menus-move-top" data-dir="top"><?php _e( 'To the top' ); ?></a>
-					</label>
-				</p>
+				endif; ?>
+
+				<fieldset class="field-move hide-if-no-js description description-wide">
+					<span class="field-move-visual-label" aria-hidden="true"><?php _e( 'Move' ); ?></span>
+					<button type="button" class="button-link menus-move menus-move-up" data-dir="up"><?php _e( 'Up one' ); ?></button>
+					<button type="button" class="button-link menus-move menus-move-down" data-dir="down"><?php _e( 'Down one' ); ?></button>
+					<button type="button" class="button-link menus-move menus-move-left" data-dir="left"></button>
+					<button type="button" class="button-link menus-move menus-move-right" data-dir="right"></button>
+					<button type="button" class="button-link menus-move menus-move-top" data-dir="top"><?php _e( 'To the top' ); ?></button>
+				</fieldset>
 
 				<div class="menu-item-actions description-wide submitbox">
 					<?php if ( 'custom' != $item->type && $original_title !== false ) : ?>
@@ -311,10 +314,7 @@ class Walker_Nav_Menu_Edit_Custom extends Walker_Nav_Menu  {
 				<input class="menu-item-data-type" type="hidden" name="menu-item-type[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->type ); ?>" />
 			</div><!-- .menu-item-settings-->
 			<ul class="menu-item-transport"></ul>
-		    
-	    <?php
-	    
-	    $output .= ob_get_clean();
-
-	    }
+		<?php
+		$output .= ob_get_clean();
+	}
 }
