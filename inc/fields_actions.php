@@ -31,23 +31,18 @@ if( ! class_exists('acf_location_nav_menu_fields_actions') ) :
 		}
 		
 		
-		function acf_location_nav_menu_save_post($menu_id)
-		{
-			//Fetch post-data without filters
- 		        $post = filter_input_array(INPUT_POST);
+		function acf_location_nav_menu_save_post($menu_id) {
 			
+			//Fetch post-data without filters
+ 		    $post_data = filter_input_array(INPUT_POST);
 			
 			// bail early if no ACF data
-			if( empty($post['acf']) )
-			{
-				
+			if( empty($post_data['acf']) ) {
 				return;
-				
 			}
 			
 			// save $_POST data
-			foreach( $post['acf'] as $item_id => $item_fields )
-			{
+			foreach( $post_data['acf'] as $item_id => $item_fields ) {
 				
 				foreach ( $item_fields as $k => $v ) {
 					
@@ -67,24 +62,19 @@ if( ! class_exists('acf_location_nav_menu_fields_actions') ) :
 		
 		}
 		
-		function acf_location_nav_menu_delete_all_menu_fields($menu_id)
-		{
+		function acf_location_nav_menu_delete_all_menu_fields($menu_id) {
 			
 			$menu_items = wp_get_nav_menu_items($menu_id);
 			
-			if ( $menu_items )
-			{
+			if ( $menu_items ) {
 				
-				foreach ( $menu_items as $item )
-				{
+				foreach ( $menu_items as $item ) {
 					
 					$meta_fields = get_post_meta($item->id);
 					
-					if ( $meta_fields )
-					{
+					if ( $meta_fields ) {
 					
-						foreach ( $meta_fields as $k => $v )
-						{
+						foreach ( $meta_fields as $k => $v ) {
 							
 							delete_post_meta($item, $k);
 							
@@ -98,20 +88,16 @@ if( ! class_exists('acf_location_nav_menu_fields_actions') ) :
 			
 		}
 		
-		function acf_location_nav_menu_delete_menu_item_fields($post_id)
-		{
+		function acf_location_nav_menu_delete_menu_item_fields($post_id) {
 			$post = get_post($post_id);
 			
-			if ( $post->post_type == 'nav_menu_item' )
-			{
+			if ( $post->post_type == 'nav_menu_item' ) {
 					
 				$meta_fields = get_post_meta($post_id);
 				
-				if ( $meta_fields )
-				{
+				if ( $meta_fields ) {
 				
-					foreach ( $meta_fields as $k => $v )
-					{
+					foreach ( $meta_fields as $k => $v ) {
 						
 						delete_post_meta($post_id, $k);
 						
@@ -127,5 +113,3 @@ if( ! class_exists('acf_location_nav_menu_fields_actions') ) :
 	new acf_location_nav_menu_fields_actions();
 
 endif;
-
-?>
