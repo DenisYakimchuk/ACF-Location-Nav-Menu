@@ -5,8 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class acf_location_nav_menu extends acf_location
-{
+class acf_location_nav_menu extends acf_location {
 	/*
 	*  Construct
 	*
@@ -16,8 +15,7 @@ class acf_location_nav_menu extends acf_location
 	*  @updated 7/1/16
 	*/
 
-	function __construct()
-	{
+	function __construct() {
 		
 		add_filter( 'acf/location/rule_match/menu', array( $this, 'acf_location_nav_menu_rule_matches' ), 1, 3 );
 		add_filter( 'acf/location/rule_types', array( $this, 'acf_location_nav_menu_rule_type' ), 1, 1 );
@@ -47,8 +45,7 @@ class acf_location_nav_menu extends acf_location
 	*  @return	$options (array)
 	*/
 	 
-	function acf_location_nav_menu_rule_matches( $match, $rule, $options )
-	{
+	function acf_location_nav_menu_rule_matches( $match, $rule, $options ) 	{
 		
 		$selected_menu_id = $rule['value'];
 		
@@ -102,8 +99,7 @@ class acf_location_nav_menu extends acf_location
 	*  @return	$choices (array)
 	*/
 	
-	function acf_location_nav_menu_rule_type( $choices )
-	{
+	function acf_location_nav_menu_rule_type( $choices ) {
 		
 		$choices['Forms']['menu'] = __( 'Nav Menu', 'acf-location-nav-menu' );
 	
@@ -125,8 +121,7 @@ class acf_location_nav_menu extends acf_location
 	*  @return	$choices (array)
 	*/
 	
-	function acf_location_nav_menu_rule_value( $choices )
-	{
+	function acf_location_nav_menu_rule_value( $choices ) {
 		
 		$choices = array(
 			'all' 		=> __( 'All', 'acf-location-nav-menu' ),
@@ -155,8 +150,7 @@ class acf_location_nav_menu extends acf_location
 	*
 	*/
 	
-	function admin_head()
-	{
+	function admin_head() {
 		
 		add_meta_box('acf-menu-location-settings', __("Menu Location Settings",'acf'), array($this, 'render_menu_location_settings'), 'acf-field-group', 'side', 'default');
 		
@@ -172,8 +166,7 @@ class acf_location_nav_menu extends acf_location
 	*  @update 	7/1/16
 	*/
 	
-	function render_menu_location_settings( $field_group )
-	{
+	function render_menu_location_settings( $field_group ) {
 		
 		global $field_group;
 		
